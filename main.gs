@@ -1,26 +1,3 @@
-// ツイートを投稿　コピペシートのtweetボタン押下で動作
-function morningTweet() {
-  // コピペシートから全レコード取得
-  const sheetData = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('コピペ');
-  const message = sheetData.getRange(1, 1, 7, 2).getValues();
-
-  // 多次元配列を文字列に変換
-  mess = message.join();
-
-  // ,を削除
-  mess = mess.replace(/,0/g, '\n0');
-  mess = mess.replace(/,1/g, '\n1');
-  mess = mess.replace(/,2/g, '\n1');
-  mess = mess.replace(/,/g, ' ');
-
-  // tweetする
-  const service  = twitter.getService();
-  const response = service.fetch('https://api.twitter.com/1.1/statuses/update.json', {
-    method: 'post',
-    payload: { status: '本日の時間割\n' + mess + '\n\nパズドラ ゲリラbot' }
-  });
-  console.info('時間割tweet');
-}
 
 // 30分ごとに実行　
 function main() {
@@ -80,10 +57,28 @@ function createTriggers1Minutes() {
     .create();
 }  
 
-function test() {
+// ツイートを投稿　コピペシートのtweetボタン押下で動作
+function morningTweet() {
+  // コピペシートから全レコード取得
+  const sheetData = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('コピペ');
+  const message = sheetData.getRange(1, 1, 7, 2).getValues();
+
+  // 多次元配列を文字列に変換
+  mess = message.join();
+
+  // ,を削除
+  mess = mess.replace(/,0/g, '\n0');
+  mess = mess.replace(/,1/g, '\n1');
+  mess = mess.replace(/,2/g, '\n1');
+  mess = mess.replace(/,/g, ' ');
+
+  // tweetする
+  const service  = twitter.getService();
+  const response = service.fetch('https://api.twitter.com/1.1/statuses/update.json', {
+    method: 'post',
+    payload: { status: '本日の時間割\n' + mess + '\n\nパズドラ ゲリラbot' }
+  });
+  console.info('時間割tweet');
 }
-
-
-
 
 

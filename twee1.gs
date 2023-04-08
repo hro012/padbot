@@ -1,4 +1,4 @@
-
+//未使用 v1 API用
 
 var CONSUMER_KEY = getConsumerKey();
 var CONSUMER_SECRET = getConsumerSecret();

@@ -89,12 +89,25 @@ function batchTweet(paste) {
   paste = paste.replace(/,/g, " ");
   
   try{
-    // tweetを実行
-    const service  = twitter.getService();
-    const response = service.fetch('https://api.twitter.com/1.1/statuses/update.json', {
+    //トークン確認
+    var service = checkOAuth();
+
+    //message本文
+    var message = {
+      text: paste + ' が始まります\n\nパズドラ ゲリラbot ' + getD()
+    }
+
+    //リクエスト実行
+    const response = UrlFetchApp.fetch(ENDPOINT2, {
       method: 'post',
-      payload: { status: paste + ' が始まります\n\nパズドラ ゲリラbot' }
+      headers: {
+        Authorization: 'Bearer ' + service.getAccessToken()
+      },
+      muteHttpExceptions: true,
+      payload: JSON.stringify(message),
+      contentType: 'application/json'
     });
+
     console.info('下記をツイート\n' + paste);
     // LINEで通知
     sendLineMessage(paste, '上記をツイートしました。');
@@ -173,4 +186,10 @@ function checkWhite() {
   }else{
     return false
   }
+}
+
+//ツイートに付属させる日時を取得
+function getD(){
+  var d = new Date();
+  return Utilities.formatDate(d, 'Asia/Tokyo', 'yyMMdd');
 }

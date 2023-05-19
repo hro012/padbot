@@ -10,4 +10,4 @@
 - [OAuth2、API v2でTwitter🐦にツイートできるようにしてみた（GAS）](https://qiita.com/yuzinet/items/ae4b9ca2b5cd989de435)
 - [GASからTwitter API v2でツイートする【Google Apps Script】](https://prtn-life.com/blog/gas-twitter-api#toc14)
 - [Google Apps Script GitHub アシスタント導入時、[GitHub assistant] undefined エラーが出た時の対処法](https://qiita.com/ryotab22/items/677ab0cd1611062b8ae8)
-
+- [【開発者向け】凍結（SUSPENDED）されたTwitterアプリへの対応【ログイン障害】](https://note.com/game_i/n/n98d3f9d4ee27)

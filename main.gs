@@ -50,6 +50,14 @@ function main() {
   }
 }
 
+function mainCheckOAuth() {
+  var service = checkOAuth();
+  if (!service.hasAccess()) {   
+    console.info('認証切れ2h');
+    sendLineMessage('認証切れ2h','');
+  }
+}  
+
 function createTriggers1Minutes() {
   var onChangeTrigger = ScriptApp.newTrigger("main")
     .timeBased()

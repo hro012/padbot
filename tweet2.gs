@@ -2,6 +2,7 @@
 //認証用の各種変数
 var CLIENT_ID =  getAppId();
 var CLIENT_SECRET = getAppSecret();
+
 var scope = "tweet.write tweet.read users.read offline.access"
 var authurl = "https://twitter.com/i/oauth2/authorize"
 var tokenurl = "https://api.twitter.com/2/oauth2/token"
@@ -55,13 +56,13 @@ function checkOAuth() {
   pkceChallengeVerifier();
   const prop = PropertiesService.getUserProperties();
 
-  return OAuth2.createService("twitter")
+  return OAuth2.createService('twitter')
     .setAuthorizationBaseUrl(authurl)
     .setTokenUrl(tokenurl + '?code_verifier=' + prop.getProperty("code_verifier"))
     .setClientId(CLIENT_ID)
     .setClientSecret(CLIENT_SECRET)
     .setScope(scope)
-    .setCallbackFunction("authCallback")　//認証を受けたら受け取る関数を指定する
+    .setCallbackFunction("authCallback") //認証を受けたら受け取る関数を指定する
     .setPropertyStore(PropertiesService.getScriptProperties())  //スクリプトプロパティに保存する
     .setParam("response_type", "code")
     .setParam('code_challenge_method', 'S256')
@@ -70,6 +71,7 @@ function checkOAuth() {
       'Authorization': 'Basic ' + Utilities.base64Encode(CLIENT_ID + ':' + CLIENT_SECRET),
       'Content-Type': 'application/x-www-form-urlencoded'
     })
+
 }
 
 //認証コールバック

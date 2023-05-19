@@ -1,7 +1,7 @@
 // 時間割シートから読み取る
 function getTimeTable() {
   const sheetData = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("時間割");
-  const record = sheetData.getRange('A1:A15').getValues();
+  const record = sheetData.getRange('A1:A25').getValues();
   console.info('時間割シートから下記を取得\nA1:A9: ' + record);
   return record;
 }
@@ -82,6 +82,30 @@ function checkTimeExceed(diff) {
   }
 }
 
+// function batchTweet(paste) {
+//   // 配列を文字列化
+//   paste = paste.join();
+//   // ,を削除
+//   paste = paste.replace(/,/g, " ");
+
+//   try{
+//     // tweetを実行
+//     const service  = twitter.getService();
+//     const response = service.fetch('https://api.twitter.com/1.1/statuses/update.json', {
+//       method: 'post',
+//       payload: { status: paste + ' が始まります\n\nパズドラ ゲリラbot' }
+//     });
+//     console.info('下記をツイート\n' + paste);
+//     // LINEで通知
+//     sendLineMessage(paste, '上記をツイートしました。');
+//   } catch(e){
+//     console.error('エラーが発生\n' + e);
+//     console.error(response);
+//     console.error(paste);
+//     sendLineMessage(e, paste);
+//   }
+// }
+
 function batchTweet(paste) {
   // 配列を文字列化
   paste = paste.join();
@@ -91,14 +115,15 @@ function batchTweet(paste) {
   try{
     //トークン確認
     var service = checkOAuth();
+    var date = getD()
 
     //message本文
     var message = {
-      text: paste + ' が始まります\n\nパズドラ ゲリラbot ' + getD()
+      text: paste + ' が始まります\n\nパズドラ ゲリラbot ' + date
     }
 
     //リクエスト実行
-    const response = UrlFetchApp.fetch(ENDPOINT2, {
+    var response = UrlFetchApp.fetch(ENDPOINT2, {
       method: 'post',
       headers: {
         Authorization: 'Bearer ' + service.getAccessToken()
@@ -108,9 +133,9 @@ function batchTweet(paste) {
       contentType: 'application/json'
     });
 
-    console.info('下記をツイート\n' + paste);
+    console.info('下記をツイート\n' + paste + ' ' + date);
     // LINEで通知
-    sendLineMessage(paste, '上記をツイートしました。');
+    sendLineMessage(paste + ' ' + date, '上記をツイートしました。');
   } catch(e){
     console.error('エラーが発生\n' + e);
     console.error(response);
@@ -146,30 +171,6 @@ function sendLineMessage(record, str) {
       "message": record + '\n' + str
     }
   });
-}
-
-
-// 10時の時点で入力されていない場合にLINEで通知
-function myFunction() {
-  var date1 = new Date('hh:mm:ss');
-  var date2 = new Date(2021,8,24,8,0,1,1);
-  Logger.log(date1);
-  Logger.log(date2);
- 
-  // 日付比較サンプル
-  Logger.log(date1.getTime() > date2.getTime());
-  Logger.log(date1.getTime() < date2.getTime());
-  Logger.log(date1.getTime());
-  Logger.log(date2.getTime());
-  Logger.log(date1.getTime() === date2.getTime());
- 
-  if(date1.getTime() > date2.getTime()) {
-    Logger.log('date1 > date2')
-  }else if(date1.getTime() < date2.getTime()){
-    Logger.log('date2 > date1')
-  } else {
-    Logger.log('date1 = date2');
-  }
 }
 
 function checkWhite() {
